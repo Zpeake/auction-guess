@@ -4,5 +4,10 @@
   "framework": "vite",
   "rewrites": [
     { "source": "/api/scan", "destination": "/api/scan" }
-  ]
+  ],
+  "functions": {
+    "api/scan.js": {
+      "maxDuration": 60
+    }
+  }
 }
