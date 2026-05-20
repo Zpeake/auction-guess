@@ -375,7 +375,7 @@ export default function App() {
   const [base64, setBase64]   = useState(null);
   const [mime, setMime]       = useState("image/jpeg");
   const [dragging, setDragging] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loadingPhase, setLoadingPhase] = useState("");
   const [result, setResult]   = useState(null);
   const [error, setError]     = useState(null);
   const [view, setView]       = useState("individual"); // "individual" | "bundle"
@@ -399,6 +399,10 @@ export default function App() {
     setLoading(true);
     setError(null);
     setResult(null);
+    setLoadingPhase("Scanning inventory...");
+    const phaseTimer = setTimeout(() => setLoadingPhase("Pricing items..."), 4000);
+    const res = await fetch("/api/scan", { ... });
+    clearTimeout(phaseTimer); 
 
     const systemPrompt = `You are an expert resale pricing specialist with deep knowledge of eBay SOLD listings for gaming gear, electronics, and collectibles. You specialize in WhatNot auction pricing.
 
@@ -629,7 +633,7 @@ Rules:
                       borderTop: `2px solid ${C.amber}`,
                       borderRadius: "50%",
                     }} />
-                    SCANNING LOT...
+                    {loadingPhase}
                   </>
                 ) : "⚡ SCAN & PRICE"}
               </button>
