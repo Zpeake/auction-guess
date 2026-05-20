@@ -401,38 +401,6 @@ export default function App() {
     setResult(null);
     setLoadingPhase("Scanning inventory...");
     const phaseTimer = setTimeout(() => setLoadingPhase("Pricing items..."), 4000);
-    const res = await fetch("/api/scan", { ... });
-    clearTimeout(phaseTimer); 
-
-    const systemPrompt = `You are an expert resale pricing specialist with deep knowledge of eBay SOLD listings for gaming gear, electronics, and collectibles. You specialize in WhatNot auction pricing.
-
-Analyze the image. Return ONLY valid JSON — no markdown, no fences, no extra text
-
-{
-  "items": [
-    {
-      "name": "Specific item name",
-      "category": "Console | Game | Controller | Accessory | Other",
-      "platform": "PS5 | PS4 | Xbox | Switch | PC | N/A",
-      "condition": "Excellent | Good | Fair",
-      "conditionNote": "One short phrase about visible condition",
-      "ebayLow": 45,
-      "ebayMid": 60,
-      "ebayHigh": 75
-    }
-  ],
-  "whatnotTips": [
-    "Short WhatNot-specific auction tip 1",
-    "Short WhatNot-specific auction tip 2",
-    "Short WhatNot-specific auction tip 3"
-  ]
-}
-
-Rules:
-- All prices are integers (USD), based on eBay completed/sold listings
-- ebayMid should be the realistic sold median, not the average of low/high
-- Be specific with names (e.g. "Call of Duty: Black Ops 6 PS5" not just "game")
-- WhatNot tips should be practical and auction-specific (starting bids, bundling order, hot items to lead with, etc.)`;
 
     try {
       const res = await fetch("/api/scan", {
@@ -440,7 +408,6 @@ Rules:
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
           max_tokens: 1500,
-          system: systemPrompt,
           messages: [{
             role: "user",
             content: [
@@ -450,6 +417,7 @@ Rules:
           }],
         }),
       });
+      clearTimeout(phaseTimer);
       const data = await res.json();
       const raw = data.content?.find(b => b.type === "text")?.text ?? "";
       const clean = raw.replace(/```json|```/g, "").trim();
@@ -460,7 +428,7 @@ Rules:
     } finally {
       setLoading(false);
     }
-  };
+  };  
 
   const reset = () => {
     setImage(null); setBase64(null); setResult(null); setError(null); setView("individual");
