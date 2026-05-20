@@ -403,7 +403,6 @@ export default function App() {
     const systemPrompt = `You are an expert resale pricing specialist with deep knowledge of eBay SOLD listings for gaming gear, electronics, and collectibles. You specialize in WhatNot auction pricing.
 
 Analyze the image. Return ONLY valid JSON — no markdown, no fences, no extra text
-- ALWAYS list every single item individually, no matter how many items are in the photo. Never group items into a collection. If there are 20 games, list all 20 separately.
 
 {
   "items": [
