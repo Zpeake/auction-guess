@@ -376,6 +376,7 @@ export default function App() {
   const [mime, setMime]       = useState("image/jpeg");
   const [dragging, setDragging] = useState(false);
   const [loadingPhase, setLoadingPhase] = useState("");
+  const [loading, setLoading] = useState(false);
   const [result, setResult]   = useState(null);
   const [error, setError]     = useState(null);
   const [view, setView]       = useState("individual"); // "individual" | "bundle"
