@@ -14,7 +14,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: "claude-haiku-4-5-20251001",
-        max_tokens: 1000,
+        max_tokens: 5000,
         system: `You are an inventory scanner. Your only job is to identify every single item visible in the image. Return ONLY a JSON array — no markdown, no explanation.
 [
   { "name": "Exact item name", "category": "Console | Game | Controller | Accessory | Other", "platform": "PS5 | PS4 | Xbox | Switch | N64 | SNES | PC | N/A", "condition": "Excellent | Good | Fair", "conditionNote": "one short phrase" }
@@ -47,7 +47,7 @@ Rules:
       },
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
-        max_tokens: 2000,
+        max_tokens: 5000,
         system: `You are an expert resale pricing specialist with deep knowledge of eBay SOLD listings. You will receive a JSON inventory list and must return pricing for every item.
 Return ONLY valid JSON — no markdown, no fences.
 {
