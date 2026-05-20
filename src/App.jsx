@@ -74,6 +74,23 @@ const GLOBAL_CSS = `
 `;
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
+function resizeImage(file, maxWidth = 1024) {
+  return new Promise((res) => {
+    const img = document.createElement("img");
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const scale = Math.min(1, maxWidth / img.width);
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+      canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob((blob) => res(blob), "image/jpeg", 0.85);
+      URL.revokeObjectURL(url);
+    };
+    img.src = url;
+  });
+}
+
 function fileToBase64(file) {
   return new Promise((res, rej) => {
     const r = new FileReader();
@@ -369,7 +386,9 @@ export default function App() {
     if (!file?.type.startsWith("image/")) return;
     setImage(URL.createObjectURL(file));
     setMime(file.type || "image/jpeg");
-    setBase64(await fileToBase64(file));
+    const resized = await resizeImage(file);
+    setBase64(await fileToBase64(resized));
+    setMime("image/jpeg");
     setResult(null);
     setError(null);
     setView("individual");
