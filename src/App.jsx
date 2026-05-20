@@ -420,9 +420,8 @@ export default function App() {
       });
       clearTimeout(phaseTimer);
       const data = await res.json();
-      const raw = data.content?.find(b => b.type === "text")?.text ?? "";
-      const clean = raw.replace(/```json|```/g, "").trim();
-      setResult(JSON.parse(clean));
+      if (data.error) throw new Error(data.error);
+      setResult(data);
     } catch (e) {
       setError("Couldn't analyze this photo. Try a clearer, well-lit shot.");
       console.error(e);
