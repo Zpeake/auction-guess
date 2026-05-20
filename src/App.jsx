@@ -412,12 +412,8 @@ Rules:
 - WhatNot tips should be practical and auction-specific (starting bids, bundling order, hot items to lead with, etc.)`;
 
     try {
-      const res = await fetch("http://localhost:8000/api/scan", {
+      const res = await fetch("/api/scan", {
         method: "POST",
-        headers: { "Content-Type": "application/json",
-                    "x-api-key": import.meta.env.VITE_ANTHROPIC_API_KEY,
-                    "anthropic-version": "2023-06-01",
-                  },
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
           max_tokens: 1500,
