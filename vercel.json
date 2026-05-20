@@ -1,5 +1,8 @@
 {
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite",
   "rewrites": [
-    { "source": "/api/scan", "destination": "/api/scan.js" }
+    { "source": "/api/scan", "destination": "/api/scan" }
   ]
 }
