@@ -74,7 +74,7 @@ const GLOBAL_CSS = `
 `;
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
-function resizeImage(file, maxWidth = 1024) {
+function resizeImage(file, maxWidth = 2560) {
   return new Promise((res) => {
     const img = document.createElement("img");
     const url = URL.createObjectURL(file);
